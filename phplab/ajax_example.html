@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <div id="content">
+
+        </div>
+    </body>
+    <script>
+        fetch('http://localhost/phplab/api/getSaltsAsJSON.php')
+  .then(response => response.json()) // or response.text(), etc.
+  .then(data => {
+    let content=``;
+    for (let i=0;i<data.salts.length;i++){
+        content+=`
+            Сіль `+data.salts[i].name+` `+data.salts[i].formula+`</br>
+            Тип: `+data.salts[i].type+`</br>
+            Сфера призначення: `+data.salts[i].purpose+`</br>
+            Маркування: `+data.salts[i].marking+`</br>
+            Характеристики: </br>
+        `;
+        console.log(content);
+        for (const key in data.salts[i].properties) {
+            content+=`${key}: ${data.salts[i].properties[key]} </br>`;
+        }
+        
+    }
+    
+    document.getElementById('content').innerHTML=content;
+  })
+  .catch(error => console.error('Error:', error));
+    </script>
+</html>
